@@ -1,0 +1,33 @@
+@charset "UTF-8";
+body{
+	background-color: lightgray;
+}
+.container{
+	display: grid;
+	grid-template-columns: 30% 40% 30%;
+}
+#form{
+	background-color: white;
+	grid-column-start: 2;
+	margin-top: 10%;
+	margin-bottom: 20%;
+	text-align:center;
+	font-size: large;
+	margin-left: 10%;
+	margin-right: 10%;
+	padding-top: 10%;
+	padding-bottom: 10%;
+}
+#head{
+	font-size: x-large;
+}
+h1{
+	text-align: center;
+	margin-top: 10%;
+}
+#newUser{
+margin-bottom:3%;
+}
+#goHome{
+text-align: center;
+}

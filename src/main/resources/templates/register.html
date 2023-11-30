@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>User Register</title>
+    <link rel="stylesheet" href="register.css">
+</head>
+<body>
+<h1>Welcome to DreamScribe Blogs</h1>
+<div id="container">
+    <h1>Register here:</h1>
+<form th:action="@{/processRegister}" method="post">
+    <br> <b>Enter Email:</b>
+    <br><input type="email" name="email">
+    <br>
+    <br> <b>Enter Username for Login:</b>
+    <br><input type="username" name="username">
+    <br>
+    <br> <b>Enter Password:</b>
+    <br><input type="password" name="password">
+    <br>
+ <br> <input type="submit">
+</form>
+</div>
+</body>
+</html>

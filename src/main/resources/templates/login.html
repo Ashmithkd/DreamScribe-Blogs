@@ -1,0 +1,35 @@
+
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Insert title here</title>
+    <link rel="stylesheet" href="login.css">
+</head>
+<body>
+<div th:if="${param.error}">
+    Wrong Password
+</div>
+<h1>Welcome to DreamScribe Blogs</h1>
+<div class="container">
+
+    <div id="form">
+        <div id="newUser">
+            New User? <a th:href="@{/register}">Register here</a>
+        </div>
+        <div id="head"><b>User Login</b></div>
+        <form th:action="@{/authenticateTheUser}" method="post">
+            <br>Enter Username:
+            <br><input type="text" name="username" placeholder="username" required>
+            <br>
+            <br>Enter Password:
+            <br><input type="password" name="password" placeholder="password" required>
+            <br>
+            <br><input type="submit">
+        </form>
+
+    </div>
+</div>
+<span id="goHome"><a th:href="@{/Home}">Go to Home page</a></span>
+</body>
+</html>

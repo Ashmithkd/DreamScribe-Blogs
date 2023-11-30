@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="home.css">
+</head>
+<body>
+<div id="page">
+<div id="headContainer">
+    <div id="heading"><h1>DreamScribe Blogs</h1></div>
+    <div id="login"  th:if="${userName==null}">
+        <a th:href="@{/login}">Login</a>
+    </div>
+    <div id="login" th:if="${userName!=null}">
+        <form th:action="@{/logout}" method="post">
+            <input type="submit" value="logout">
+        </form>
+    </div>
+    <div id="createPost"><a th:href="@{/createPost}">Create a new Blog </a></div>
+</div>
+    <span id="search">
+        <form th:action="@{/search}">
+        <input type="text" name="search" id="searchBox" placeholder="Search here">
+        <input type="submit" id="searchButton" value="search">
+    </form>
+    </span>
+   <span id="sortForm">
+     <form th:action="@{/Home}">
+         Sort By:<select name="sortBy">
+            <option value="title">Title</option>
+            <option value="createdAt">Posted On</option>
+            </select>
+         Order By:<select name="orderBy">
+             <option value="asc">Asc</option>
+             <option value="desc">Desc</option>
+         </select>
+         <input type="submit" value="sort">
+    </form>
+    </span>
+    <span id="filter">
+       Filter By <form th:action="@{/filter}">
+            <select name="filterBy">
+                <option value="tag">Tags</option>
+                <option value="author">Author</option>
+            </select>
+            <input type="text" name="filterString">
+            <input type="submit" value="filter">
+        </form>
+    </span>
+<div id="container">
+    <div id="post" th:each="post: ${listOfPost}">
+        <b>Title:</b>
+       <span th:text="${post.title}" id="title"></span>
+        <br>
+        <b>Author:</b>
+        <span th:text="${post.author}"></span>
+        <br>
+        <b>Posted On:</b>
+        <span th:text="${post.createdAt}"></span>
+        <br>
+        <b>Last Updated:</b>
+        <span th:text="${post.updatedAt}"></span>
+        <br>
+        <b>Tags:</b>
+        <span th:each="tags: ${post.tags}">
+            <span th:text="${tags.name}"></span>
+        </span>
+        <br>
+        <b>Excerpt:</b>
+        <span th:text="${post.excerpt}"></span>
+        <br>
+        <b>Content:</b>
+        <span th:text="${#strings.abbreviate(post.content,70)}"></span>
+        <br>
+        <a th:href="@{/post(postId=${post.id})}">Read More</a>
+    </div>
+
+</div>
+    <a th:if="${currentPage > 0}" th:href="@{'/Home?pageNumber=' + ${currentPage - 1}}">Previous</a>
+    page <span th:text="${currentPage+1}"></span>
+    of <span th:text="${totalPage}"></span>
+    <a th:if="${currentPage < totalPage - 1}" th:href="@{'/Home?pageNumber=' + ${currentPage + 1}}">Next</a>
+</div>
+</body>
+</html>

@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="post.css">
+</head>
+<body>
+<div id="container">
+    <h1>DreamScribe Blogs</h1>
+
+    <!--Post Name,AuthorName-->
+    <div>
+        <h2><span th:text="${post.title}"></span></h2>
+       <h4>Author:<span th:text="${post.author}"></span><br></h4>
+        Tags:<span id="tagId" th:each="tag: ${post.tags}">
+        <span id="tag" th:text="${tag.name}"></span>
+    </span>
+    </div>
+<br>
+
+    <form th:action="@{/editPost}">
+        <input type="hidden" th:name="postId" th:value="${post.id}">
+        <input type="hidden" th:name="userId" th:value="${userId}">
+        <input type="submit" value="Edit post">
+    </form>
+
+    <div id="content">
+       <h4>CONTENT:</h4><hr>  <span th:text="${post.content}"></span>
+    </div>
+
+<br>
+    <!--Comment form-->
+    <form th:action="@{/addComment}"  method="post" id="commentForm">
+        Name:<input type="text" th:name="name" required>
+        <br></br>Email:<input type="email" th:name="email" required>
+        <br><br>Comment:<input type="text" th:name="commentText" minlength="10" required>
+        <br><input type="hidden" th:name="postId" th:value="${post.id}">
+        <br><input type="submit" value="Submit Comment">
+    </form>
+    <!--Display comments-->
+<br>
+    Comments:
+    <div th:each="comment:${listOfComments}">
+        <span th:text="${comment.name}"+></span>
+        :<span th:text="${comment.comment}"></span>
+    </div>
+    <br>
+
+
+
+    <!--Delete post-->
+
+    <!--<a th:href="@{/deletePost(postId=${post.id})}">Delete Post</a>-->
+
+    <form th:action="@{/deletePost}" method="post">
+        <input type="hidden" th:name="postId" th:value="${post.id}">
+        <input type="submit" value="Delete this post">
+    </form>
+
+
+
+</div>
+</body>
+</html>

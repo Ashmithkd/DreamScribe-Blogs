@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="createPost.css">
+</head>
+<body>
+
+<div id="form">
+    <form th:action="@{/processPost}" th:object="${post}" method="post">
+        <h1>Create a new Post</h1>
+        <b>Enter Title:</b>
+        <br><input type="text" th:field="${post.title}" required>
+        <br><br>
+        <b>Enter Excerpt:</b>
+        <br><input type="text" th:field="${post.excerpt}" required>
+        <br><br>
+        <b>Enter Tags:</b>
+        <br><input type="text" th:name="tagsEntered"  required>
+        <br><br>
+        <b>Enter Content:</b>
+        <br><textarea id="contentBox" th:field="${post.content}" maxlength="4999" minlength="50"  required w></textarea>
+        <br>
+
+        <input type="submit" style="width:10%">
+
+    </form>
+</div>
+<span id="goHome"><a th:href="@{/Home}">Go to Home page</a></span>
+
+</body>
+</html>

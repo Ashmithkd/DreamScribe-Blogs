@@ -1,0 +1,58 @@
+#headContainer{
+display: grid;
+grid-template-columns: 70% 30%;
+grid-template-rows:80% 20%;
+}
+#sortForm{
+text-align:center;
+}
+#createPost{
+grid-row-start:2;
+grid-column-start:2;
+}
+#heading{
+margin-left:40%;
+text-align: center;
+grid-row-start:1;
+grid-column-start:1;
+}
+#login{
+padding-top:10%;
+grid-row-start:1;
+grid-column-start:2;
+}
+#container{
+display: grid;
+    grid-template-columns: 50% 50%
+}
+#post{
+padding:2%;
+border: 1px solid black;
+margin:4%;
+word-wrap: break-word;
+}
+#title{
+font-size:large;
+}
+ul#head li {
+  display:inline;
+}
+body{
+background-color:lightgray;
+}
+#page{
+background-color:white;
+margin:2%;
+}
+#searchBox{
+width:70%;
+margin-left:10%;
+margin-top:1%;
+margin-bottom:1%;
+}
+#searchButton{
+margin-right:10%
+margin-top:1%;
+margin-bottom:1%;
+
+}
