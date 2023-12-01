@@ -1,4 +1,4 @@
-package io.mountblue.blogApp.Blog.Application.controller;
+package io.mountblue.blogApp.Blog.Application.rest;
 import io.mountblue.blogApp.Blog.Application.model.*;
 import io.mountblue.blogApp.Blog.Application.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
