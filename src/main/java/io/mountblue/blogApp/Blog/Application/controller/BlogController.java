@@ -83,7 +83,7 @@ public class BlogController {
         model.addAttribute("listOfPost", posts.getContent());
         model.addAttribute("currentPage", pageNumber);
         model.addAttribute("totalPage", posts.getTotalPages());
-        return "Home";
+        return "home";
     }
 
     @PostMapping("/deletePost")
