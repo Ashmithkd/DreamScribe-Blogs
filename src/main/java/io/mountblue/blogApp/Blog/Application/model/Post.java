@@ -18,9 +18,9 @@ public class Post {
     private String title;
     @Column(name="author")
     private String author;
-    @Column(name="content")
+    @Column(name="content", columnDefinition = "TEXT")
     private String content;
-    @Column(name="excerpt")
+    @Column(name="excerpt", length = 500)
     private String excerpt;
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name="createdAt")

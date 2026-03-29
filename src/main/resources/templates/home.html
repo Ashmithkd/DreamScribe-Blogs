@@ -1,86 +1,101 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-    <link rel="stylesheet" href="home.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DreamScribe — Blogs</title>
+  <link rel="stylesheet" href="home.css">
 </head>
 <body>
-<div id="page">
-<div id="headContainer">
-    <div id="heading"><h1>DreamScribe Blogs</h1></div>
-    <div id="login"  th:if="${userName==null}">
-        <a th:href="@{/login}">Login</a>
-    </div>
-    <div id="login" th:if="${userName!=null}">
-        <form th:action="@{/logout}" method="post">
-            <input type="submit" value="logout">
-        </form>
-    </div>
-    <div id="createPost"><a th:href="@{/createPost}">Create a new Blog </a></div>
-</div>
-    <span id="search">
-        <form th:action="@{/search}">
-        <input type="text" name="search" id="searchBox" placeholder="Search here">
-        <input type="submit" id="searchButton" value="search">
-    </form>
-    </span>
-   <span id="sortForm">
-     <form th:action="@{/Home}">
-         Sort By:<select name="sortBy">
-            <option value="title">Title</option>
-            <option value="createdAt">Posted On</option>
-            </select>
-         Order By:<select name="orderBy">
-             <option value="asc">Asc</option>
-             <option value="desc">Desc</option>
-         </select>
-         <input type="submit" value="sort">
-    </form>
-    </span>
-    <span id="filter">
-       Filter By <form th:action="@{/filter}">
-            <select name="filterBy">
-                <option value="tag">Tags</option>
-                <option value="author">Author</option>
-            </select>
-            <input type="text" name="filterString">
-            <input type="submit" value="filter">
-        </form>
-    </span>
-<div id="container">
-    <div id="post" th:each="post: ${listOfPost}">
-        <b>Title:</b>
-       <span th:text="${post.title}" id="title"></span>
-        <br>
-        <b>Author:</b>
-        <span th:text="${post.author}"></span>
-        <br>
-        <b>Posted On:</b>
-        <span th:text="${post.createdAt}"></span>
-        <br>
-        <b>Last Updated:</b>
-        <span th:text="${post.updatedAt}"></span>
-        <br>
-        <b>Tags:</b>
-        <span th:each="tags: ${post.tags}">
-            <span th:text="${tags.name}"></span>
-        </span>
-        <br>
-        <b>Excerpt:</b>
-        <span th:text="${post.excerpt}"></span>
-        <br>
-        <b>Content:</b>
-        <span th:text="${#strings.abbreviate(post.content,70)}"></span>
-        <br>
-        <a th:href="@{/post(postId=${post.id})}">Read More</a>
-    </div>
+<div class="page-shell">
 
-</div>
-    <a th:if="${currentPage > 0}" th:href="@{'/Home?pageNumber=' + ${currentPage - 1}}">Previous</a>
-    page <span th:text="${currentPage+1}"></span>
-    of <span th:text="${totalPage}"></span>
-    <a th:if="${currentPage < totalPage - 1}" th:href="@{'/Home?pageNumber=' + ${currentPage + 1}}">Next</a>
+  <!-- Header -->
+  <header class="site-header">
+    <div class="site-logo">Dream<em>Scribe</em></div>
+    <div class="header-actions">
+      <div th:if="${userName==null}">
+        <a th:href="@{/login}" style="font-family:var(--font-ui);font-size:12px;letter-spacing:.08em;font-weight:600;color:var(--parchment);opacity:.7;transition:opacity .2s" onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='.7'">Sign In</a>
+      </div>
+      <div th:if="${userName!=null}">
+        <form th:action="@{/logout}" method="post" style="display:inline">
+          <input type="submit" value="Sign Out" style="font-size:11px;padding:8px 18px;">
+        </form>
+      </div>
+      <a th:href="@{/createPost}" class="btn-primary">+ New Post</a>
+    </div>
+  </header>
+  <div class="header-rule"></div>
+
+  <!-- Controls bar -->
+  <div class="controls-bar anim-1">
+    <form th:action="@{/search}" style="flex:1;min-width:220px">
+      <input type="text" name="search" placeholder="Search posts, authors, tags…">
+    </form>
+    <div class="controls-sep"></div>
+    <form th:action="@{/Home}">
+      <span class="field-label" style="display:inline;margin:0 6px 0 0">Sort</span>
+      <select name="sortBy">
+        <option value="createdAt">Date</option>
+        <option value="title">Title</option>
+      </select>
+      <select name="orderBy" style="margin-left:6px">
+        <option value="desc">↓ Newest</option>
+        <option value="asc">↑ Oldest</option>
+      </select>
+      <input type="submit" value="Apply" style="padding:10px 18px;font-size:11px;margin-left:8px">
+    </form>
+    <div class="controls-sep"></div>
+    <form th:action="@{/filter}">
+      <span class="field-label" style="display:inline;margin:0 6px 0 0">Filter</span>
+      <select name="filterBy">
+        <option value="tag">Tag</option>
+        <option value="author">Author</option>
+      </select>
+      <input type="text" name="filterString" placeholder="Value…" style="width:130px;margin-left:6px">
+      <input type="submit" value="Go" style="padding:10px 16px;font-size:11px;margin-left:8px">
+    </form>
+  </div>
+
+  <!-- Section label -->
+  <div class="section-heading anim-2">Latest stories</div>
+
+  <!-- Empty state -->
+  <div class="empty-state" th:if="${#lists.isEmpty(listOfPost)}">
+    <div class="empty-state__icon">✦</div>
+    <div class="empty-state__title">No stories yet</div>
+    <div class="empty-state__msg">Be the first to share something.</div>
+    <a th:href="@{/createPost}" class="btn-primary" style="margin-top:8px">Write a post</a>
+  </div>
+
+  <!-- Posts grid -->
+  <div class="posts-grid" th:if="${not #lists.isEmpty(listOfPost)}">
+    <div class="post-card anim-2" th:each="post, iterStat: ${listOfPost}">
+      <div class="post-card__number" th:text="${'№ ' + (iterStat.index + 1)}"></div>
+      <div class="post-card__title" th:text="${post.title}"></div>
+      <div class="post-card__meta">
+        <span th:text="${post.author}"></span>
+        <span class="post-card__meta-dot">·</span>
+        <span th:text="${post.createdAt}"></span>
+      </div>
+      <div class="post-card__tags">
+        <span class="tag-pill" th:each="tags: ${post.tags}" th:text="${tags.name}"></span>
+      </div>
+      <div class="post-card__excerpt" th:text="${post.excerpt}"></div>
+      <div class="post-card__footer">
+        <a class="post-card__read" th:href="@{/post(postId=${post.id})}">Read story →</a>
+        <!-- FIX: removed '+ …' — #strings.abbreviate already appends '...' -->
+        <span style="font-family:var(--font-ui);font-size:10px;color:var(--muted)" th:text="${#strings.abbreviate(post.content, 55)}"></span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Pagination -->
+  <div class="pagination" th:if="${totalPage > 1}">
+    <a th:if="${currentPage > 0}" th:href="@{'/Home?pageNumber=' + ${currentPage - 1}}">← Prev</a>
+    <span class="page-info" th:text="${'Page ' + (currentPage + 1) + ' of ' + totalPage}"></span>
+    <a th:if="${currentPage < totalPage - 1}" th:href="@{'/Home?pageNumber=' + ${currentPage + 1}}">Next →</a>
+  </div>
+
 </div>
 </body>
 </html>

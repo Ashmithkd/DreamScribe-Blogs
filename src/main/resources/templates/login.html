@@ -1,35 +1,57 @@
-
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <title>Insert title here</title>
-    <link rel="stylesheet" href="login.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sign In — DreamScribe</title>
+  <link rel="stylesheet" href="login.css">
 </head>
 <body>
-<div th:if="${param.error}">
-    Wrong Password
-</div>
-<h1>Welcome to DreamScribe Blogs</h1>
-<div class="container">
+<div class="auth-bg"></div>
 
-    <div id="form">
-        <div id="newUser">
-            New User? <a th:href="@{/register}">Register here</a>
-        </div>
-        <div id="head"><b>User Login</b></div>
-        <form th:action="@{/authenticateTheUser}" method="post">
-            <br>Enter Username:
-            <br><input type="text" name="username" placeholder="username" required>
-            <br>
-            <br>Enter Password:
-            <br><input type="password" name="password" placeholder="password" required>
-            <br>
-            <br><input type="submit">
-        </form>
+<div class="auth-shell">
 
+  <!-- Brand left panel -->
+  <div class="auth-brand">
+    <div class="auth-brand-logo">
+      Dream
+      <em>Scribe</em>
     </div>
+    <div class="auth-brand-tagline">Where words find their home</div>
+    <blockquote class="auth-brand-quote">
+      "A writer only begins a book. A reader finishes it."
+    </blockquote>
+  </div>
+
+  <!-- Form right panel -->
+  <div class="auth-form-panel">
+    <h2>Welcome back</h2>
+    <div class="auth-form-subtitle">Sign in to continue your story</div>
+
+    <div class="error-msg" th:if="${param.error}">
+      Incorrect username or password. Please try again.
+    </div>
+
+    <form th:action="@{/authenticateTheUser}" method="post">
+      <div class="auth-field">
+        <label class="field-label" for="username">Username</label>
+        <input type="text" id="username" name="username" placeholder="your username" required>
+      </div>
+      <div class="auth-field">
+        <label class="field-label" for="password">Password</label>
+        <input type="password" id="password" name="password" placeholder="••••••••" required>
+      </div>
+      <input type="submit" value="Sign In →" class="auth-submit">
+    </form>
+
+    <div class="auth-alt">
+      New to DreamScribe? <a th:href="@{/register}">Create an account</a>
+    </div>
+    <div class="auth-back">
+      <a th:href="@{/Home}">← Browse without signing in</a>
+    </div>
+  </div>
+
 </div>
-<span id="goHome"><a th:href="@{/Home}">Go to Home page</a></span>
 </body>
 </html>

@@ -1,0 +1,30 @@
+/* ── ADD THIS BLOCK to the bottom of home.css ── */
+
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 80px 24px;
+  gap: 12px;
+  animation: fadeUp .6s both;
+}
+.empty-state__icon {
+  font-size: 32px;
+  color: var(--amber);
+  opacity: .4;
+  margin-bottom: 8px;
+}
+.empty-state__title {
+  font-family: var(--font-disp);
+  font-size: 22px;
+  font-style: italic;
+  font-weight: 300;
+  color: var(--ivory);
+}
+.empty-state__msg {
+  font-family: var(--font-ui);
+  font-size: 13px;
+  color: var(--muted);
+}

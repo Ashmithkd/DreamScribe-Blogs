@@ -1,11 +1,38 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <title>Title</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Access Denied — DreamScribe</title>
+  <link rel="stylesheet" href="base.css">
+  <style>
+    .center {
+      min-height: 100vh;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      text-align: center; gap: 20px; padding: 40px 24px;
+      position: relative; z-index: 2;
+    }
+    .logo { font-family: var(--font-disp); font-size: 26px; font-style: italic; font-weight: 300; }
+    .logo em { color: var(--amber); font-style: normal; }
+    .code {
+      font-family: var(--font-disp);
+      font-size: 120px; font-weight: 700; line-height: 1;
+      color: transparent;
+      -webkit-text-stroke: 1px rgba(232,162,58,0.3);
+      letter-spacing: -.02em;
+    }
+    h2 { font-size: 28px; font-style: italic; font-weight: 300; }
+    .msg { font-family: var(--font-ui); font-size: 14px; color: var(--muted); max-width: 360px; line-height: 1.6; }
+  </style>
 </head>
 <body>
-AccessDenied- You must be the Author of the post for this action
-<br><a th:href="@{/Home}">CLick here to go back to Home page</a>
+<div class="center">
+  <div class="logo">Dream<em>Scribe</em></div>
+  <div class="code">403</div>
+  <h2>Access Denied</h2>
+  <p class="msg">You must be the author of this post to perform that action.</p>
+  <a th:href="@{/Home}" class="btn-primary">← Back to Home</a>
+</div>
 </body>
 </html>

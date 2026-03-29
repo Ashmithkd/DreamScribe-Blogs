@@ -1,0 +1,311 @@
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400;1,600&family=Syne:wght@400;500;600;700&family=Lora:ital,wght@0,400;0,500;1,400&display=swap');
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --ink:        #07080e;
+  --deep:       #0b0d18;
+  --glass:      rgba(255,255,255,0.04);
+  --glass-h:    rgba(255,255,255,0.07);
+  --rim:        rgba(255,255,255,0.08);
+  --rim-h:      rgba(255,255,255,0.16);
+  --amber:      #e8a23a;
+  --amber-dim:  #a06820;
+  --amber-glow: rgba(232,162,58,0.18);
+  --ivory:      #f0e8d8;
+  --parchment:  #c8bca8;
+  --muted:      #6a6678;
+  --danger:     #e05050;
+  --r:          10px;
+  --font-disp:  'Cormorant Garamond', Georgia, serif;
+  --font-body:  'Lora', Georgia, serif;
+  --font-ui:    'Syne', sans-serif;
+  --ease:       cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--ink);
+  color: var(--ivory);
+  font-family: var(--font-body);
+  font-size: 16px;
+  line-height: 1.75;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* ── Animated background orbs ── */
+body::before, body::after {
+  content: '';
+  position: fixed;
+  border-radius: 50%;
+  filter: blur(120px);
+  pointer-events: none;
+  z-index: 0;
+  animation: drift 20s ease-in-out infinite alternate;
+}
+body::before {
+  width: 600px; height: 600px;
+  background: radial-gradient(circle, rgba(232,162,58,0.10) 0%, transparent 70%);
+  top: -200px; left: -150px;
+}
+body::after {
+  width: 500px; height: 500px;
+  background: radial-gradient(circle, rgba(100,80,200,0.07) 0%, transparent 70%);
+  bottom: -200px; right: -100px;
+  animation-delay: -10s;
+  animation-direction: alternate-reverse;
+}
+@keyframes drift {
+  0%   { transform: translate(0, 0) scale(1); }
+  50%  { transform: translate(60px, 40px) scale(1.1); }
+  100% { transform: translate(-40px, 80px) scale(0.95); }
+}
+
+/* ── Grain overlay ── */
+body > *:first-child::before {
+  content: '';
+  position: fixed; inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+  pointer-events: none; z-index: 1; opacity: 0.6;
+}
+
+/* ── Scrollbar ── */
+::-webkit-scrollbar { width: 5px; }
+::-webkit-scrollbar-track { background: var(--ink); }
+::-webkit-scrollbar-thumb { background: var(--amber-dim); border-radius: 99px; }
+
+/* ── Typography ── */
+a { color: var(--amber); text-decoration: none; transition: color .2s; }
+a:hover { color: var(--ivory); }
+
+h1, h2, h3, h4 {
+  font-family: var(--font-disp);
+  font-weight: 600;
+  color: var(--ivory);
+  line-height: 1.15;
+}
+
+strong, b { font-weight: 600; color: var(--parchment); }
+
+/* ── Glass card ── */
+.glass {
+  position: relative;
+  background: var(--glass);
+  border: 1px solid var(--rim);
+  border-radius: var(--r);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+}
+.glass:hover {
+  background: var(--glass-h);
+  border-color: var(--rim-h);
+}
+
+/* ── Inputs ── */
+input[type=text],
+input[type=email],
+input[type=password],
+input[type=username],
+textarea,
+select {
+  width: 100%;
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 8px;
+  color: var(--ivory);
+  font-family: var(--font-ui);
+  font-size: 14px;
+  padding: 12px 16px;
+  outline: none;
+  transition: border-color .25s, background .25s, box-shadow .25s;
+  -webkit-appearance: none;
+}
+input::placeholder, textarea::placeholder { color: var(--muted); }
+input:focus, textarea:focus, select:focus {
+  border-color: var(--amber);
+  background: rgba(232,162,58,0.06);
+  box-shadow: 0 0 0 3px rgba(232,162,58,0.10);
+}
+select option { background: #111; }
+
+/* ── Buttons ── */
+input[type=submit], .btn {
+  font-family: var(--font-ui);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  background: transparent;
+  border: 1px solid var(--amber);
+  color: var(--amber);
+  padding: 11px 26px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all .25s var(--ease);
+  position: relative;
+  overflow: hidden;
+}
+input[type=submit]::before, .btn::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: var(--amber);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform .3s var(--ease);
+  z-index: -1;
+}
+input[type=submit]:hover, .btn:hover {
+  color: var(--ink);
+  box-shadow: 0 0 24px rgba(232,162,58,0.3);
+}
+input[type=submit]:hover::before, .btn:hover::before { transform: scaleX(1); }
+
+/* ── Label style ── */
+.field-label {
+  display: block;
+  font-family: var(--font-ui);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 8px;
+}
+
+/* ── Tag pills ── */
+.tag-pill {
+  display: inline-block;
+  font-family: var(--font-ui);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  background: rgba(232,162,58,0.1);
+  border: 1px solid rgba(232,162,58,0.25);
+  color: var(--amber);
+  padding: 4px 12px;
+  border-radius: 99px;
+  margin: 3px 2px;
+  transition: background .2s;
+}
+.tag-pill:hover { background: rgba(232,162,58,0.2); }
+
+/* ── Page shell ── */
+.page-shell {
+  position: relative;
+  z-index: 2;
+  max-width: 1160px;
+  margin: 0 auto;
+  padding: 0 32px 100px;
+}
+
+/* ── Site header ── */
+.site-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 32px 0 28px;
+  gap: 20px;
+  flex-wrap: wrap;
+  animation: fadeUp .6s var(--ease) both;
+}
+.site-logo {
+  font-family: var(--font-disp);
+  font-size: 30px;
+  font-weight: 300;
+  font-style: italic;
+  color: var(--ivory);
+  letter-spacing: -.5px;
+}
+.site-logo em { color: var(--amber); font-style: normal; }
+.header-rule {
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(232,162,58,0.4), transparent);
+  margin-bottom: 48px;
+  animation: fadeIn .8s .3s both;
+}
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  font-family: var(--font-ui);
+  font-size: 12px;
+  letter-spacing: .06em;
+}
+
+/* ── Animations ── */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+@keyframes slideRight {
+  from { opacity: 0; transform: translateX(-20px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+
+.anim-1 { animation: fadeUp .6s .05s var(--ease) both; }
+.anim-2 { animation: fadeUp .6s .15s var(--ease) both; }
+.anim-3 { animation: fadeUp .6s .25s var(--ease) both; }
+.anim-4 { animation: fadeUp .6s .35s var(--ease) both; }
+.anim-5 { animation: fadeUp .6s .45s var(--ease) both; }
+
+/* ── Dividers ── */
+.divider {
+  border: none;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--rim-h), transparent);
+  margin: 40px 0;
+}
+
+/* ── Primary CTA button ── */
+.btn-primary {
+  display: inline-block;
+  font-family: var(--font-ui);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  background: var(--amber);
+  border: 1px solid var(--amber);
+  color: var(--ink);
+  padding: 12px 28px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all .25s var(--ease);
+  text-decoration: none;
+  box-shadow: 0 4px 20px rgba(232,162,58,0.25);
+}
+.btn-primary:hover {
+  background: #f0b84a;
+  color: var(--ink);
+  box-shadow: 0 6px 32px rgba(232,162,58,0.4);
+  transform: translateY(-1px);
+}
+
+/* ── Danger button ── */
+.btn-danger {
+  font-family: var(--font-ui);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  background: transparent;
+  border: 1px solid rgba(224,80,80,0.4);
+  color: rgba(224,80,80,0.7);
+  padding: 9px 20px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all .2s;
+}
+.btn-danger:hover {
+  background: rgba(224,80,80,0.12);
+  border-color: var(--danger);
+  color: var(--danger);
+}

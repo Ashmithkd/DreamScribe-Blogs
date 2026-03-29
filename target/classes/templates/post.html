@@ -1,65 +1,98 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-    <link rel="stylesheet" href="post.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Post — DreamScribe</title>
+  <link rel="stylesheet" href="post.css">
 </head>
 <body>
-<div id="container">
-    <h1>DreamScribe Blogs</h1>
 
-    <!--Post Name,AuthorName-->
-    <div>
-        <h2><span th:text="${post.title}"></span></h2>
-       <h4>Author:<span th:text="${post.author}"></span><br></h4>
-        Tags:<span id="tagId" th:each="tag: ${post.tags}">
-        <span id="tag" th:text="${tag.name}"></span>
-    </span>
-    </div>
-<br>
+<!-- Reading progress bar -->
+<div class="progress-bar" id="progressBar"></div>
 
-    <form th:action="@{/editPost}">
-        <input type="hidden" th:name="postId" th:value="${post.id}">
-        <input type="hidden" th:name="userId" th:value="${userId}">
-        <input type="submit" value="Edit post">
+<!-- Sticky top nav -->
+<nav class="post-topbar">
+  <div class="post-topbar-logo">Dream<em>Scribe</em></div>
+  <div class="post-topbar-actions">
+    <a th:href="@{/Home}">← All Stories</a>
+    <form th:action="@{/editPost}" style="display:inline">
+      <input type="hidden" th:name="postId" th:value="${post.id}">
+      <input type="hidden" th:name="userId" th:value="${userId}">
+      <input type="submit" value="Edit" style="padding:8px 18px;font-size:11px">
     </form>
+  </div>
+</nav>
 
-    <div id="content">
-       <h4>CONTENT:</h4><hr>  <span th:text="${post.content}"></span>
-    </div>
-
-<br>
-    <!--Comment form-->
-    <form th:action="@{/addComment}"  method="post" id="commentForm">
-        Name:<input type="text" th:name="name" required>
-        <br></br>Email:<input type="email" th:name="email" required>
-        <br><br>Comment:<input type="text" th:name="commentText" minlength="10" required>
-        <br><input type="hidden" th:name="postId" th:value="${post.id}">
-        <br><input type="submit" value="Submit Comment">
-    </form>
-    <!--Display comments-->
-<br>
-    Comments:
-    <div th:each="comment:${listOfComments}">
-        <span th:text="${comment.name}"+></span>
-        :<span th:text="${comment.comment}"></span>
-    </div>
-    <br>
-
-
-
-    <!--Delete post-->
-
-    <!--<a th:href="@{/deletePost(postId=${post.id})}">Delete Post</a>-->
-
-    <form th:action="@{/deletePost}" method="post">
-        <input type="hidden" th:name="postId" th:value="${post.id}">
-        <input type="submit" value="Delete this post">
-    </form>
-
-
-
+<!-- Hero -->
+<div class="post-hero" id="container">
+  <div class="post-hero-eyebrow">DreamScribe</div>
+  <h1 class="post-hero__title" th:text="${post.title}"></h1>
+  <div class="post-hero__meta">
+    <span th:text="${post.author}"></span>
+    <span class="meta-sep">·</span>
+    <span th:text="${post.createdAt}"></span>
+  </div>
+  <div class="post-hero__tags">
+    <span class="tag-pill" id="tagId" th:each="tag: ${post.tags}" th:text="${tag.name}"></span>
+  </div>
 </div>
+
+<!-- Article content -->
+<article class="post-article">
+  <hr class="post-divider">
+  <div class="post-content" id="content" th:text="${post.content}"></div>
+</article>
+
+<!-- Comments -->
+<section class="comments-section">
+  <div class="comments-heading">Leave a comment</div>
+
+  <form class="comment-form" th:action="@{/addComment}" method="post" id="commentForm">
+    <div class="comment-form-row">
+      <div class="comment-field">
+        <label class="field-label" for="cname">Name</label>
+        <input type="text" id="cname" th:name="name" required>
+      </div>
+      <div class="comment-field">
+        <label class="field-label" for="cemail">Email</label>
+        <input type="email" id="cemail" th:name="email" required>
+      </div>
+    </div>
+    <div class="comment-field">
+      <label class="field-label" for="ctext">Your comment</label>
+      <input type="text" id="ctext" th:name="commentText" minlength="10" required>
+    </div>
+    <input type="hidden" th:name="postId" th:value="${post.id}">
+    <input type="submit" value="Post Comment →">
+  </form>
+
+  <div class="comments-heading">Readers say</div>
+
+  <div class="comment-list">
+    <div class="comment-item" th:each="comment: ${listOfComments}">
+      <div class="comment-item__name" th:text="${comment.name}"></div>
+      <div class="comment-item__text" th:text="${comment.comment}"></div>
+    </div>
+  </div>
+</section>
+
+<!-- Delete -->
+<div class="danger-zone">
+  <form th:action="@{/deletePost}" method="post">
+    <input type="hidden" th:name="postId" th:value="${post.id}">
+    <input type="submit" value="Delete this post">
+  </form>
+</div>
+
+<script>
+  // Reading progress bar
+  window.addEventListener('scroll', () => {
+    const doc = document.documentElement;
+    const scrolled = doc.scrollTop / (doc.scrollHeight - doc.clientHeight);
+    document.getElementById('progressBar').style.width = (scrolled * 100) + '%';
+  });
+</script>
+
 </body>
 </html>

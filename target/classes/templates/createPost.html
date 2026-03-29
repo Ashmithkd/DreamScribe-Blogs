@@ -1,33 +1,62 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-    <link rel="stylesheet" href="createPost.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>New Post — DreamScribe</title>
+  <link rel="stylesheet" href="createPost.css">
 </head>
 <body>
+<div class="editor-page">
 
-<div id="form">
-    <form th:action="@{/processPost}" th:object="${post}" method="post">
-        <h1>Create a new Post</h1>
-        <b>Enter Title:</b>
-        <br><input type="text" th:field="${post.title}" required>
-        <br><br>
-        <b>Enter Excerpt:</b>
-        <br><input type="text" th:field="${post.excerpt}" required>
-        <br><br>
-        <b>Enter Tags:</b>
-        <br><input type="text" th:name="tagsEntered"  required>
-        <br><br>
-        <b>Enter Content:</b>
-        <br><textarea id="contentBox" th:field="${post.content}" maxlength="4999" minlength="50"  required w></textarea>
-        <br>
+  <!-- Sticky top bar -->
+  <div class="editor-topbar">
+    <div class="editor-topbar-logo">Dream<em>Scribe</em></div>
+    <div class="editor-topbar-actions">
+      <a th:href="@{/Home}" style="font-family:var(--font-ui);font-size:12px;color:var(--muted)">Discard</a>
+      <input type="submit" form="postForm" value="Publish →" style="padding:10px 24px;font-size:12px">
+    </div>
+  </div>
 
-        <input type="submit" style="width:10%">
+  <!-- Editor body -->
+  <div class="editor-body">
+    <div class="editor-eyebrow">New Post</div>
+    <h1 class="editor-title">Tell your story</h1>
+
+    <form class="editor-form" id="postForm" th:action="@{/processPost}" th:object="${post}" method="post">
+
+      <div class="field-row">
+        <div class="field-group">
+          <label class="field-label" for="title">Title</label>
+          <input type="text" id="title" th:field="${post.title}" placeholder="Give it a great title…" required>
+        </div>
+        <div class="field-group">
+          <label class="field-label" for="tags">Tags</label>
+          <input type="text" id="tags" th:name="tagsEntered" placeholder="java, spring, tech">
+          <span class="editor-hint">Separate tags with commas</span>
+        </div>
+      </div>
+
+      <div class="field-group">
+        <label class="field-label" for="excerpt">Excerpt</label>
+        <input type="text" id="excerpt" th:field="${post.excerpt}" placeholder="A compelling one-liner about your post…" required>
+        <span class="editor-hint">This appears on the home page card</span>
+      </div>
+
+      <div class="field-group">
+        <label class="field-label" for="contentBox">Content</label>
+        <textarea class="content-area" id="contentBox" th:field="${post.content}" maxlength="4999" minlength="50" placeholder="Begin writing here…" required></textarea>
+        <span class="editor-hint">50–4999 characters</span>
+      </div>
+
+      <div class="editor-footer">
+        <a th:href="@{/Home}" style="font-family:var(--font-ui);font-size:12px;color:var(--muted)">← Cancel</a>
+        <input type="submit" value="Publish Post →">
+      </div>
 
     </form>
-</div>
-<span id="goHome"><a th:href="@{/Home}">Go to Home page</a></span>
+  </div>
 
+</div>
 </body>
 </html>
